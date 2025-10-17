@@ -1,4 +1,4 @@
-## A simple RESTful API built with Node.js, Express, and TypeScript that returns profile information along with a random cat fact fetched from the [Cat Facts API](https://catfact.ninja/fact).
+A simple RESTful API built with Node.js, Express, and TypeScript that returns profile information along with a random cat fact fetched from the [Cat Facts API](https://catfact.ninja/fact).
 
 ## Features
 - GET `/me` endpoint returning profile information
@@ -29,11 +29,8 @@
 - **dotenv** (optional): For environment variable management
 - **nodemon** and **ts-node**: For development with auto-reload
 
-
-
-## Live Demo
+### Live Demo 
 [https://your-hosted-url/me](https://your-hosted-url/me)  
-
 
 ## Getting Started
 
@@ -62,7 +59,6 @@ PORT=3000  # Optional, defaults to 3000
 ```bash
    npm install
 ```
-
    **Dependencies**:
    - `express`: Web framework
    - `axios`: HTTP client for Cat Facts API
@@ -85,9 +81,9 @@ PORT=3000  # Optional, defaults to 3000
 ```bash
      npm run build
      npm start
-     ```
+```
    - For development with auto-reload:
-     ```bash
+```bash
      npm run dev
 ```
 
