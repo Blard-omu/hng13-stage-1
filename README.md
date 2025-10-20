@@ -1,150 +1,284 @@
-A simple RESTful API built with Node.js, Express, and TypeScript that returns profile information along with a random cat fact fetched from the [Cat Facts API](https://catfact.ninja/fact).
+# String Analyzer API
+
+A **RESTful API** that analyzes strings, computes metadata, and supports advanced **filtering** — including **natural language queries**.
+Built with **Node.js**, **Express**, and **TypeScript** for the **HNG13 Stage 1 Backend Task**.
+
+---
 
 ## Features
-- GET `/me` endpoint returning profile information
-- Dynamic UTC timestamp in ISO 8601 format
-- Integration with Cat Facts API for random cat facts
-- Error handling for API failures with fallback response
-- Content-Type set to `application/json`
-- TypeScript for type safety and better code quality
-- CORS enabled for cross-origin requests
 
+* **String analysis**:
 
-### Project Structure
-```
-├── src/
-│   └── index.ts       # Main API logic
-├── dist/              # Compiled JavaScript output
-├── package.json       # Dependencies and scripts
-├── tsconfig.json      # TypeScript configuration
-├── .env               # Environment variables (optional)
-└── README.md          # This file
-```
+  * `length`, `is_palindrome`, `unique_characters`, `word_count`
+  * `sha256_hash` (unique ID)
+  * `character_frequency_map`
+* **Persistent storage** (in-memory + JSON file)
+* **Filtering** with query params (`is_palindrome`, `min_length`, etc.)
+* **Natural language filtering** (e.g., *"all single word palindromic strings"*)
+* **Error handling**: returns proper status codes (`400`, `404`, `409`, `422`, `204`)
+* **Route order safety** to avoid path conflicts
+* **CORS enabled** for frontend integration
+* **Type-safe** with TypeScript interfaces
 
-### Technologies Used
-- **Node.js** with **Express.js**: Web server framework
-- **TypeScript**: Type-safe JavaScript
-- **Axios**: For HTTP requests to Cat Facts API
-- **CORS**: Middleware for cross-origin requests
-- **dotenv** (optional): For environment variable management
-- **nodemon** and **ts-node**: For development with auto-reload
+---
 
-### Live Demo 
-[https://your-hosted-url/me](https://your-hosted-url/me)  
+## API Endpoints
 
-## Getting Started
-
-### Prerequisites
-- Node.js (>=18.0.0)
-- npm
-- TypeScript
-
-### Environment Variables
-Create a `.env` file in the root directory with the following variables:
-
-```
-PORT=3000  # Optional, defaults to 3000
-```
-
-*Note*: Unlike the provided pattern, the user’s email, name, and stack are hardcoded in `src/index.ts` (as shown in the previous code). Update them directly in the code or extend to use `.env` if preferred.
-
-### Installation
-1. Clone this repository:
-```bash
-   git clone https://github.com/your-username/your-repo.git
-   cd your-repo
-```
-
-2. Install dependencies:
-```bash
-   npm install
-```
-   **Dependencies**:
-   - `express`: Web framework
-   - `axios`: HTTP client for Cat Facts API
-   - `typescript`: For TypeScript support
-   - `@types/express`, `@types/node`: Type definitions
-   - `ts-node`, `nodemon`: For development
-
-3. Update profile details:
-   - Edit `src/index.ts` to set your `email`, `name`, and `stack` in the `user` object:
-```typescript
-     const user = {
-       email: 'your.email@example.com',
-       name: 'Your Full Name',
-       stack: 'Node.js/Express/TypeScript',
-     };
-```
-
-4. Start the server:
-   - For production:
-```bash
-     npm run build
-     npm start
-```
-   - For development with auto-reload:
-```bash
-     npm run dev
-```
-
-### Usage
-Send a GET request to the `/me` endpoint:
+### 1. `POST /strings` — Analyze & Store String
 
 ```bash
-curl http://localhost:3000/me
+curl -X POST http://localhost:3000/strings \
+  -H "Content-Type: application/json" \
+  -d '{"value": "madam"}'
 ```
 
-**Example Response**:
+✅ **Response (201)**
+
 ```json
 {
-  "status": "success",
-  "user": {
-    "email": "blardcodes@gmail.com",
-    "name": "Peter Omu",
-    "stack": "Node.js/Express/TypeScript"
+  "id": "e4d7f1b4f0d3a1c8a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0",
+  "value": "madam",
+  "properties": {
+    "length": 5,
+    "is_palindrome": true,
+    "unique_characters": 3,
+    "word_count": 1,
+    "sha256_hash": "e4d7f1b4f0d3a1c8a1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0",
+    "character_frequency_map": { "m": 2, "a": 1, "d": 2 }
   },
-  "timestamp": "2025-10-17T12:08:56.789Z",
-  "fact": "Cats have 32 muscles in each ear."
+  "created_at": "2025-08-27T10:00:00Z"
 }
 ```
 
-### Deployment
-This API can be deployed to platforms like Railway, Heroku, AWS, Render or others (Vercel is forbidden).
+❌ **Errors**:
 
-#### Railway Deployment
-1. Create a new project on [Railway](https://railway.app).
-2. Connect your GitHub repository.
-3. Add environment variables (if any) in Railway’s dashboard:
-   - `PORT`: 3000 (optional, Railway assigns one if not set).
-4. Deploy the application. Railway will run `npm run build` and `npm start`.
-5. Access the API at `https://your-project.railway.app/me`.
+* `400`: Missing `value`
+* `422`: `value` not a string
+* `409`: String already exists
 
+---
 
-### Testing
-- **Local Testing**:
-  - Run `npm run dev` and test with:
+### 2. `GET /strings/:id` — Get Specific String
+
 ```bash
-    curl http://localhost:3000/me
+curl http://localhost:3000/strings/<id>
 ```
-  - Verify:
-    - Response matches the required JSON structure.
-    - Timestamp updates per request (ISO 8601 format).
-    - A new cat fact is fetched each time.
-    - Content-Type is `application/json`.
-    - Errors (e.g., Cat Facts API failure) return a 503 status with JSON error message.
 
-- **Hosted Testing**:
-  - Test the deployed URL from multiple networks to ensure accessibility.
+✅ **200 OK**: Returns stored string
+❌ **404 Not Found**: `"String not found"`
 
-### Notes
-- The API fetches a fresh cat fact on every request (no caching).
-- Error handling ensures a fallback response if the Cat Facts API is down.
-- TypeScript’s strict mode (`"strict": true`) ensures robust code.
-- Update the `Live Demo` link after deployment.
+---
+
+### 3. `GET /strings` — List with Filters
+
+```bash
+curl "http://localhost:3000/strings?is_palindrome=true&min_length=5&contains_character=a"
+```
+
+✅ **200 OK**
+
+```json
+{
+  "data": [/* array of StoredString */],
+  "count": 3,
+  "filters_applied": {
+    "is_palindrome": true,
+    "min_length": 5,
+    "contains_character": "a"
+  }
+}
+```
+
+| Query Param          | Type             | Description      |
+| -------------------- | ---------------- | ---------------- |
+| `is_palindrome`      | `true` / `false` | Boolean string   |
+| `min_length`         | integer ≥ 0      | Minimum length   |
+| `max_length`         | integer ≥ 0      | Maximum length   |
+| `word_count`         | integer > 0      | Exact word count |
+| `contains_character` | single character | Case-insensitive |
+
+❌ **400**: Invalid parameter
+
+---
+
+### 4. `GET /strings/filter-by-natural-language` — Natural Language Filtering
+
+```bash
+curl -G "http://localhost:3000/strings/filter-by-natural-language" \
+  --data-urlencode "query=all single word palindromic strings"
+```
+
+| Example Query                                      | Interpreted As                               |
+| -------------------------------------------------- | -------------------------------------------- |
+| `all single word palindromic strings`              | `word_count=1`, `is_palindrome=true`         |
+| `strings longer than 10 characters`                | `min_length=11`                              |
+| `palindromic strings that contain the first vowel` | `is_palindrome=true`, `contains_character=a` |
+| `strings containing the letter z`                  | `contains_character=z`                       |
+
+✅ **200 OK**
+
+```json
+{
+  "data": [/* ... */],
+  "count": 2,
+  "interpreted_query": {
+    "original": "all single word palindromic strings",
+    "parsed_filters": { "word_count": 1, "is_palindrome": true }
+  }
+}
+```
+
+❌ **Errors**:
+
+* `400`: Missing or unparsable `query`
+* `422`: Conflicting filters
+
+---
+
+### 5. `DELETE /strings/:id` — Delete String
+
+```bash
+curl -X DELETE http://localhost:3000/strings/<id>
+```
+
+✅ **204 No Content**
+❌ **404 Not Found**: `"String does not exist in the system"`
+
+---
+
+## 🏗 Project Structure
+
+```
+string-analyzer-api/
+├── src/
+│   ├── index.ts           # Main server & routes
+│   ├── types.ts           # Interfaces (responses, errors)
+│   ├── utils/
+│   │   ├── helpers.ts     # analyzeString, load/save, sendError
+│   │   └── nlParser.ts    # Natural language parser
+├── data.json              # Persistent storage (auto-created)
+├── package.json
+├── tsconfig.json
+├── README.md
+└── .gitignore
+```
+
+---
+
+## ⚙️ Setup & Installation
+
+```bash
+# Clone the repo
+git clone https://github.com/blard-omu/string-analyzer-api.git
+cd string-analyzer-api
+
+# Install dependencies
+npm install
+
+# Build TypeScript
+npm run build
+```
+
+---
+
+## Running Locally
+
+```bash
+# Development mode
+npm run dev
+
+# Production
+npm start
+```
+
+> Server runs at `http://localhost:3000`
+
+---
+
+## Environment Variables
+
+| Variable | Default | Description |
+| -------- | ------- | ----------- |
+| `PORT`   | `3000`  | Server port |
+
+---
+
+## Testing with cURL
+
+```bash
+# Create a new string
+curl -X POST http://localhost:3000/strings \
+  -H "Content-Type: application/json" \
+  -d '{"value": "racecar"}'
+
+# Natural language filter
+curl -G "http://localhost:3000/strings/filter-by-natural-language" \
+  --data-urlencode "query=palindromic strings that contain the first vowel"
+
+# Basic filtering
+curl "http://localhost:3000/strings?is_palindrome=true&word_count=1"
+```
+
+---
+
+## Deployment
+
+✅ Allowed: Railway, Heroku, AWS, PXXL App
+❌ Forbidden: Vercel
+
+### Deploy to Railway
+
+1. Push project to GitHub
+2. Go to [railway.app](https://railway.app)
+3. Create new project → Link GitHub repo
+4. Set `PORT` if needed
+5. Deploy and get your live URL:
+
+   ```
+   https://your-app.up.railway.app
+   ```
+
+---
+
+## Submission Instructions
+
+Use the **Thanos bot** in `#stage-1-backend` channel:
+
+```
+/stage-one-backend
+```
+
+Submit:
+
+* **API Base URL:** `https://your-app.up.railway.app`
+* **GitHub Repo:** `https://github.com/yourusername/string-analyzer-api`
+* **Full Name:** Your Name
+* **Email:** [your.email@example.com](mailto:your.email@example.com)
+* **Stack:** Node.js + Express + TypeScript
+
+> **Deadline**: October 22, 2025 — 11:59 PM WAT
+
+---
+
+## Testing & Validation Checklist
+
+* All endpoints tested with cURL
+* Natural language parser works with provided queries
+* Route order prevents conflicts
+* Strict query validation (no silent failures)
+* Proper error messages and HTTP status codes
+
+---
 
 ## Author
-- Name: BLARD
-- Email: blardcodes@gmail.com
+
+**Your Name**
+
+* GitHub: [@Blard-Omu](https://github.com/Blard-omu)
+* Email: [peteromu76@gmail.com](mailto:peteromu76@gmail.com)
+
+---
 
 ## License
-ISC
+
+[ISC](LICENSE)
