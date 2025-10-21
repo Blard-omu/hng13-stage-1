@@ -1,1 +1,140 @@
-
+[
+  {
+    "id": "bfa2700b7775420c42356aa0265e9e4c8e998ca5916789b987e32cf34cb0753b",
+    "value": "ene",
+    "properties": {
+      "length": 3,
+      "is_palindrome": true,
+      "unique_characters": 2,
+      "word_count": 1,
+      "sha256_hash": "bfa2700b7775420c42356aa0265e9e4c8e998ca5916789b987e32cf34cb0753b",
+      "character_frequency_map": {
+        "e": 2,
+        "n": 1
+      }
+    },
+    "created_at": "2025-10-20T16:33:23.230Z"
+  },
+  {
+    "id": "9563ee84a7689542164780a345bd0ff15bdd509179f06c4b9ddd49134edbabe9",
+    "value": "Ekitike",
+    "properties": {
+      "length": 7,
+      "is_palindrome": true,
+      "unique_characters": 4,
+      "word_count": 1,
+      "sha256_hash": "9563ee84a7689542164780a345bd0ff15bdd509179f06c4b9ddd49134edbabe9",
+      "character_frequency_map": {
+        "e": 2,
+        "k": 2,
+        "i": 2,
+        "t": 1
+      }
+    },
+    "created_at": "2025-10-20T16:39:56.217Z"
+  },
+  {
+    "id": "c2bc203627e047c8590a8fffed16e651ef8194a21223ee3643d2642f8aa94e76",
+    "value": "Hnh 13 is cool",
+    "properties": {
+      "length": 14,
+      "is_palindrome": false,
+      "unique_characters": 10,
+      "word_count": 4,
+      "sha256_hash": "c2bc203627e047c8590a8fffed16e651ef8194a21223ee3643d2642f8aa94e76",
+      "character_frequency_map": {
+        "1": 1,
+        "3": 1,
+        "h": 2,
+        "n": 1,
+        " ": 3,
+        "i": 1,
+        "s": 1,
+        "c": 1,
+        "o": 2,
+        "l": 1
+      }
+    },
+    "created_at": "2025-10-20T16:40:16.975Z"
+  },
+  {
+    "id": "3d3afdf5d97905d69ad0823cf965dc947baf7f634d96dd254845605d002eb498",
+    "value": "Zebra crossing",
+    "properties": {
+      "length": 14,
+      "is_palindrome": false,
+      "unique_characters": 12,
+      "word_count": 2,
+      "sha256_hash": "3d3afdf5d97905d69ad0823cf965dc947baf7f634d96dd254845605d002eb498",
+      "character_frequency_map": {
+        "z": 1,
+        "e": 1,
+        "b": 1,
+        "r": 2,
+        "a": 1,
+        " ": 1,
+        "c": 1,
+        "o": 1,
+        "s": 2,
+        "i": 1,
+        "n": 1,
+        "g": 1
+      }
+    },
+    "created_at": "2025-10-20T18:08:01.159Z"
+  },
+  {
+    "id": "326b5fa0cbf1937678f9bfb66f08e10b0d23116f50c0937ca448bca4cea176c3",
+    "value": "Aproka Joy",
+    "properties": {
+      "length": 10,
+      "is_palindrome": false,
+      "unique_characters": 8,
+      "word_count": 2,
+      "sha256_hash": "326b5fa0cbf1937678f9bfb66f08e10b0d23116f50c0937ca448bca4cea176c3",
+      "character_frequency_map": {
+        "a": 2,
+        "p": 1,
+        "r": 1,
+        "o": 2,
+        "k": 1,
+        " ": 1,
+        "j": 1,
+        "y": 1
+      }
+    },
+    "created_at": "2025-10-20T18:14:02.277Z"
+  },
+  {
+    "id": "625a920748184e1060955af4b2836333d57a290f76e4b6d078049035df074cc5",
+    "value": "APaPa",
+    "properties": {
+      "length": 5,
+      "is_palindrome": true,
+      "unique_characters": 2,
+      "word_count": 1,
+      "sha256_hash": "625a920748184e1060955af4b2836333d57a290f76e4b6d078049035df074cc5",
+      "character_frequency_map": {
+        "a": 3,
+        "p": 2
+      }
+    },
+    "created_at": "2025-10-20T18:14:23.785Z"
+  },
+  {
+    "id": "c5295e747442a6807806c3d2a7dc2d5a77692de9bc62e8c75bb3af8ce80195b2",
+    "value": "nini",
+    "properties": {
+      "length": 4,
+      "is_palindrome": false,
+      "unique_characters": 2,
+      "word_count": 1,
+      "sha256_hash": "c5295e747442a6807806c3d2a7dc2d5a77692de9bc62e8c75bb3af8ce80195b2",
+      "character_frequency_map": {
+        "n": 2,
+        "i": 2
+      }
+    },
+    "created_at": "2025-10-21T11:33:26.105Z"
+  }
+]
